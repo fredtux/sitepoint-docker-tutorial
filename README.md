@@ -1,4 +1,4 @@
-# sitepoint-docker-tutorial
+# sitepoint-docker-tutorial (with PhpMyAdmin)
 Inspired by [https://www.sitepoint.com/docker-php-development-environment/](https://www.sitepoint.com/docker-php-development-environment/)
 
 # How to use
