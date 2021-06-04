@@ -7,26 +7,32 @@ services:
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
             - ./app:/app
-        links:
-            - php
     php:
         build:
             context: .
             dockerfile: PHP.Dockerfile
         volumes:
             - ./app:/app
-        links:
-            - mysql
     mysql:
         image: mariadb:latest
         environment:
-            MYSQL_ROOT_PASSWORD: 'secret'
-            MYSQL_USER: 'tutorial'
-            MYSQL_PASSWORD: 'secret'
-            MYSQL_DATABASE: 'tutorial'
+            MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+            MYSQL_USER: '${MYSQL_USER}'
+            MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+            MYSQL_DATABASE: '${MYSQL_DATABASE}'
         volumes:
-            - mysqldata:/var/lib/mysql
+            - volumeMySQL:/var/lib/mysql
         ports:
             - 3306:3306
+    myadmin:
+        image: 'phpmyadmin:latest'
+        ports:
+            - 8080:80
+        environment:
+            MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+        links:
+            - "mysql:db"
+        depends_on:
+            - mysql
 volumes:
-    mysqldata: {}
+    volumeMySQL: {}
